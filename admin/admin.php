@@ -7,6 +7,21 @@ require '../azure/azure-translator.php';
 // 1) Idioma solicitado
 $lang = $_GET['lang'] ?? 'es';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_comentario_id'])) {
+    $id_comentario = (int)$_POST['eliminar_comentario_id'];
+
+    try {
+        $stmt = $pdo->prepare("DELETE FROM comentarios WHERE id_comentario = :id_comentario");
+        $stmt->execute([':id_comentario' => $id_comentario]);
+
+        // Redirigir para evitar reenvío del formulario
+        header("Location: admin.php?lang=$lang");
+        exit;
+    } catch (PDOException $e) {
+        die("Error al eliminar el comentario: " . $e->getMessage());
+    }
+}
+
 // Iniciar buffer para contenido traducible
 ob_start();
 
@@ -70,6 +85,28 @@ if (isset($_GET['editar']) && is_numeric($_GET['editar'])) {
         die("Error al obtener la publicación para editar: " . $e->getMessage());
     }
 }
+
+// Obtener comentarios
+try {
+    $sqlComentarios = "
+        SELECT c.id_comentario, c.comentario, c.fecha_comentario, 
+               CASE 
+                   WHEN a.nombre IS NOT NULL THEN a.nombre
+                   ELSE u.nombre
+               END AS autor,
+               p.titular AS publicacion
+        FROM comentarios c
+        LEFT JOIN admin a ON c.id_usuario = a.id_admin
+        LEFT JOIN usuarios u ON c.id_usuario = u.id_usuario
+        LEFT JOIN publicaciones p ON c.id_noticia = p.id_noticia
+        ORDER BY c.fecha_comentario DESC
+    ";
+    $stmtComentarios = $pdo->query($sqlComentarios);
+    $comentarios = $stmtComentarios->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error al obtener comentarios: " . $e->getMessage());
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars($lang) ?>">
@@ -407,6 +444,48 @@ if (isset($_GET['editar']) && is_numeric($_GET['editar'])) {
                 </table>
             <?php } ?>    
             </div>
+
+            <!-- Comentarios -->
+            <div class="tabla-comentarios">
+                <h2><?= $lang === 'es' ? 'Comentarios' : 'Comments' ?></h2>
+                <?php if (empty($comentarios)): ?>
+                    <p class="no-comentarios"><?= $lang === 'es' ? 'No hay comentarios disponibles en este momento.' : 'No comments available at the moment.' ?></p>
+                <?php else: ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><?= $lang === 'es' ? 'ID' : 'ID' ?></th>
+                                <th><?= $lang === 'es' ? 'Comentario' : 'Comment' ?></th>
+                                <th><?= $lang === 'es' ? 'Autor' : 'Author' ?></th>
+                                <th><?= $lang === 'es' ? 'Fecha' : 'Date' ?></th>
+                                <th><?= $lang === 'es' ? 'Publicación' : 'Publication' ?></th>
+                                <th><?= $lang === 'es' ? 'Eliminar' : 'Delete' ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($comentarios as $comentario): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($comentario['id_comentario']) ?></td>
+                                    <td><?= htmlspecialchars($comentario['comentario']) ?></td>
+                                    <td><?= htmlspecialchars($comentario['autor']) ?></td>
+                                    <td><?= date("d/m/Y H:i", strtotime($comentario['fecha_comentario'])) ?></td>
+                                    <td><?= htmlspecialchars($comentario['publicacion']) ?></td>
+                                    <td data-label="<?= $lang === 'es' ? 'Eliminar' : 'Delete' ?>">
+                                        <a href="#" 
+                                        onclick="mostrarConfirmacion('<?= $lang === 'es' ? '¿Estás seguro de eliminar este comentario?' : 'Are you sure you want to delete this comment?' ?>', function() {
+                                            document.getElementById('eliminar-comentario-<?= $comentario['id_comentario'] ?>').submit();
+                                        }); return false;">❌</a>
+                                        <form id="eliminar-comentario-<?= $comentario['id_comentario'] ?>" method="POST">
+                                            <input type="hidden" name="eliminar_comentario_id" value="<?= htmlspecialchars($comentario['id_comentario']) ?>">
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+
         </main>
     </div>
 

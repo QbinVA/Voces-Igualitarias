@@ -264,6 +264,61 @@ h1, h2 {
   transform: scale(0.95);
 }
 
+.tabla-comentarios {
+    margin-top: 40px;
+}
+
+.tabla-comentarios table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-comentarios th, .tabla-comentarios td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabla-comentarios th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.tabla-comentarios .btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.tabla-comentarios .btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+.no-comentarios {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    color: #555;
+    font-style: italic;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.no-comentarios p {
+    margin: 0;
+    font-size: 1rem;
+    color: #777;
+}
+
 /* Media Queries - Responsive Design */
 @media (max-width: 1200px) {
   .sidebar {
