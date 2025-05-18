@@ -174,7 +174,7 @@ $txt = $textos[$lang] ?? $textos['es'];
           <span><?= $txt['recordarme'] ?></span>
         </label>
 
-        <a class="forgot" href="#"><?= $txt['olvide'] ?></a>
+        <a class="forgot" href="javascript:void(0);" onclick="abrirModal()"><?= $txt['olvide'] ?></a>
         <button type="submit" class="btn-login"><?= $txt['btn_login'] ?></button>
       </form>
 
@@ -185,11 +185,77 @@ $txt = $textos[$lang] ?? $textos['es'];
     </div>
   </div>
 
+  <!-- Modal para "Olvidé mi contraseña" -->
+  <div id="olvideModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="cerrarModal()">&times;</span>
+      <h2>Olvidé mi contraseña</h2>
+      <div id="modal-body">
+        <form id="olvideForm" method="POST">
+          <input type="email" name="email" placeholder="Ingresa tu correo" required>
+          <button type="submit">Enviar enlace</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script>
     function togglePassword() {
       const pass = document.getElementById("contrasena");
       pass.type = (pass.type === "password") ? "text" : "password";
     }
+
+    // Función para abrir el modal
+    function abrirModal() {
+      document.getElementById('olvideModal').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function cerrarModal() {
+      document.getElementById('olvideModal').style.display = 'none';
+    }
+
+    // Cerrar el modal si el usuario hace clic fuera del contenido
+    window.onclick = function(event) {
+      const modal = document.getElementById('olvideModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+
+    // Cerrar el modal con la tecla Escape
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        cerrarModal();
+      }
+    });
+
+    // Manejar el envío del formulario de "Olvidé mi contraseña"
+    document.getElementById('olvideForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evitar recargar la página
+
+      const formData = new FormData(this);
+
+      fetch('olvide_contrasena.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          const modalBody = document.getElementById('modal-body');
+          if (data.success) {
+            modalBody.innerHTML = `<p style="color: green;">${data.message}</p>`;
+          } else {
+            modalBody.innerHTML = `<p style="color: red;">${data.error}</p>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          const modalBody = document.getElementById('modal-body');
+          modalBody.innerHTML = `<p style="color: red;">Ocurrió un error. Intenta nuevamente más tarde.</p>`;
+        });
+    });
+    
   </script>
 </body>
 </html>
