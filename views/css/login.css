@@ -1,4 +1,4 @@
-
+/* views/css/registro.css */
 :root {
   --teal: #008080;
   --aquamarine: #7FFFD4;
@@ -88,7 +88,28 @@ html, body {
   font-size: 1rem;
 }
 
-/* “Olvidé mi contraseña” centrado */
+/* Asegurar que el input de contraseña tenga mismo ancho que el de usuario */
+.form-pane .password-wrapper {
+  width: 100%;
+  max-width: 320px;
+}
+
+.form-pane .password-wrapper input {
+  width: 100%; 
+  max-width: 100%;
+}
+
+/* Checkbox alineado horizontalmente con el texto */
+.form-pane label {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+/* "Olvidé mi contraseña" centrado */
 .form-pane .forgot {
   width: 100%;
   max-width: 320px;
