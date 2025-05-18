@@ -90,23 +90,39 @@ html, body {
 
 /* Asegurar que el input de contraseña tenga mismo ancho que el de usuario */
 .form-pane .password-wrapper {
-  width: 100%;
-  max-width: 320px;
+  width: 109%;
+  position: relative;
 }
 
 .form-pane .password-wrapper input {
   width: 100%; 
   max-width: 100%;
+  box-sizing: border-box;
+  padding-right: 2.5rem; /* Espacio para el icono */
 }
 
-/* Checkbox alineado horizontalmente con el texto */
+.form-pane .password-wrapper .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #555;
+  pointer-events: auto;
+}
+
+/* Checkbox alineado a la izquierda con desplazamiento */
 .form-pane label {
-  width: 100%;
+  width: auto; /* Ajusta el ancho al contenido */
   max-width: 320px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5rem; /* Mantiene el espacio entre el checkbox y el texto */
   margin: 0;
+  padding-left: 0; /* Asegura que no haya padding adicional */
+  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  margin-left: -200px; /* Desplaza el checkbox y el texto hacia la izquierda */
 }
 
 /* "Olvidé mi contraseña" centrado */
