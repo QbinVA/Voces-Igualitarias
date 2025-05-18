@@ -92,8 +92,8 @@ try {
       color: #333;
     }
     
-    /* Nuevo slider moderno con tamaño aumentado - CORREGIDO */
-    .modern-slider {
+    /* Pantalla transmisora de imágenes aleatorias */
+    .image-transmitter {
       width: 85%;
       margin: 0 auto 30px;
       border-radius: 12px;
@@ -105,30 +105,30 @@ try {
       border: 3px solid #01BDA3;
     }
     
-    .modern-slider .slide {
+    .image-transmitter .slide {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 0.6s ease;
       z-index: 1;
     }
     
-    .modern-slider .slide.active {
+    .image-transmitter .slide.active {
       opacity: 1;
       z-index: 2;
     }
     
-    .modern-slider .slide img {
+    .image-transmitter .slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
     
-    .modern-slider .slide-content {
+    .image-transmitter .slide-content {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -139,7 +139,7 @@ try {
       z-index: 3;
     }
     
-    .modern-slider .slide-title {
+    .image-transmitter .slide-title {
       font-size: 1.3em;
       margin-bottom: 5px;
       font-weight: bold;
@@ -150,33 +150,9 @@ try {
       max-width: 90%;
     }
     
-    .modern-slider .slide-date {
+    .image-transmitter .slide-date {
       font-size: 0.9em;
       opacity: 0.8;
-    }
-    
-    .slider-controls {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      z-index: 5;
-    }
-    
-    .slider-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .slider-dot.active {
-      background-color: #01BDA3;
-      transform: scale(1.2);
     }
     
     /* Estilo mejorado para el filtro de categorías */
@@ -230,12 +206,12 @@ try {
       box-shadow: 0 0 0 3px rgba(1, 189, 163, 0.3);
     }
     
-    /* Estilos para Swiper - Actualizado y mejorado */
+    /* Estilos para Swiper - Corregido para evitar desplazamiento horizontal */
     .swiper-container {
       width: 90%;
       margin: 0 auto;
       padding: 30px 0;
-      overflow: visible;
+      overflow: hidden;  /* Cambiado de visible a hidden para evitar desplazamiento */
       position: relative;
     }
     
@@ -339,7 +315,7 @@ try {
       width: 100%;
     }
     
-    /* Swiper Navigation - escondido pero disponible */
+    /* Swiper Navigation y Pagination */
     .swiper-button-next, 
     .swiper-button-prev {
       color: #01BDA3;
@@ -400,6 +376,12 @@ try {
       width: 80%;
       margin: 0 auto;
     }
+    
+    /* Corrección para eliminar scroll horizontal en toda la página */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
   </style>
 </head>
 
@@ -420,13 +402,13 @@ ob_start();
       ¡Siéntete libre de comentar en las noticias!</p>
   </section>
 
-  <!-- Slider moderno con noticias de la base de datos (CORREGIDO) -->
-  <section class="modern-slider">
+  <!-- Pantalla transmisora de imágenes aleatorias -->
+  <section class="image-transmitter">
       <?php
-      // Mezclamos y cortamos a 4 publicaciones para el slider
+      // Mezclamos las publicaciones para mostrarlas al azar
       $random_pubs = $sliderPubs;
       shuffle($random_pubs);
-      $random_pubs = array_slice($random_pubs, 0, 4);
+      $random_pubs = array_slice($random_pubs, 0, min(10, count($random_pubs)));
 
       foreach ($random_pubs as $i => $pub):
           // Preparamos correctamente la ruta de la imagen
@@ -450,13 +432,6 @@ ob_start();
               </div>
           </div>
       <?php endforeach; ?>
-      
-      <!-- Controles del slider -->
-      <div class="slider-controls">
-          <?php for ($i = 0; $i < count($random_pubs); $i++): ?>
-              <div class="slider-dot <?= $i === 0 ? 'active' : '' ?>" data-index="<?= $i ?>"></div>
-          <?php endfor; ?>
-      </div>
   </section>
 
   <!-- Noticias -->
@@ -487,7 +462,7 @@ ob_start();
       </form>
     </section>
 
-    <!-- Nuevo Swiper fluido -->
+    <!-- Swiper fluido corregido -->
     <?php if (empty($pubs)): ?>
       <p class="no-news">
         <?= $lang === 'es'
@@ -532,58 +507,38 @@ ob_start();
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Script para el slider moderno - CORREGIDO
-    const slides = document.querySelectorAll('.modern-slider .slide');
-    const dots = document.querySelectorAll('.slider-dot');
+    // Nueva pantalla transmisora de imágenes aleatorias
+    const slides = document.querySelectorAll('.image-transmitter .slide');
     let currentIndex = 0;
     
     // Función para cambiar slide
-    function changeSlide(index) {
+    function changeSlide() {
       // Ocultar slide actual
       slides[currentIndex].classList.remove('active');
-      dots[currentIndex].classList.remove('active');
+      
+      // Seleccionar un índice aleatorio diferente al actual
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * slides.length);
+      } while (newIndex === currentIndex && slides.length > 1);
       
       // Actualizar índice
-      currentIndex = index;
-      
-      // Si el índice se sale del rango, ajustarlo
-      if (currentIndex >= slides.length) currentIndex = 0;
-      if (currentIndex < 0) currentIndex = slides.length - 1;
+      currentIndex = newIndex;
       
       // Mostrar nuevo slide
       slides[currentIndex].classList.add('active');
-      dots[currentIndex].classList.add('active');
     }
     
-    // Auto cambio cada 5 segundos
-    let slideInterval = setInterval(() => {
-      changeSlide(currentIndex + 1);
-    }, 5000);
-    
-    // Event listeners para los dots
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        clearInterval(slideInterval);
-        changeSlide(index);
-        slideInterval = setInterval(() => {
-          changeSlide(currentIndex + 1);
-        }, 5000);
-      });
-    });
+    // Cambiar imagen cada 1.8 segundos (1800 ms)
+    setInterval(changeSlide, 1800);
 
-    // Inicializar Swiper mejorado para las tarjetas
+    // Inicializar Swiper mejorado para las tarjetas - CORREGIDO para evitar desplazamiento
     const swiper = new Swiper('.swiper-container', {
-      effect: 'coverflow',
+      slidesPerView: 1,
+      spaceBetween: 20,
       grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      coverflowEffect: {
-        rotate: 0,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: false,
-      },
+      centeredSlides: false,
+      loop: false,
       speed: 600,
       autoplay: {
         delay: 3000,
@@ -602,7 +557,7 @@ ob_start();
       breakpoints: {
         320: {
           slidesPerView: 1,
-          spaceBetween: 20
+          spaceBetween: 10
         },
         640: {
           slidesPerView: 2,
@@ -610,25 +565,12 @@ ob_start();
         },
         768: {
           slidesPerView: 3,
-          spaceBetween: 30,
+          spaceBetween: 20,
         },
         1024: {
           slidesPerView: 3,
           spaceBetween: 30,
         },
-      },
-      on: {
-        init: function() {
-          // Añadimos clases adicionales para mejorar la transición
-          document.querySelectorAll('.swiper-slide').forEach(slide => {
-            slide.addEventListener('mouseenter', () => {
-              slide.classList.add('swiper-slide-hovered');
-            });
-            slide.addEventListener('mouseleave', () => {
-              slide.classList.remove('swiper-slide-hovered');
-            });
-          });
-        }
       }
     });
   });
