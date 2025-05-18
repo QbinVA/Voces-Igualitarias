@@ -71,7 +71,7 @@ $txt = $textos[$lang] ?? $textos['es'];
     <?php 
     // Esto mostrará los botones admin si eres kevin123 (ID=1) o tester1 (ID=2)
     $user_id = $_SESSION['usuario_id'] ?? $_COOKIE['usuario_id'] ?? 0;
-    $show_admin = ($user_id == 1 || $user_id == 2);
+    $show_admin = ($user_id == 1); // ID del ADMINISTRADOR
     
     if ($show_admin):
     ?>

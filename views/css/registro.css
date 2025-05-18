@@ -1,3 +1,4 @@
+/* views/css/registro.css */
 :root {
   --teal: #008080;
   --aquamarine: #7FFFD4;
@@ -84,14 +85,13 @@ html, body {
   font-size: 1rem;
 }
 
-/* checkbox + texto pegados */
+/* checkbox + texto pegados y alineados */
 .form-pane .tos {
   width: 100%;
   max-width: 320px;
   display: flex;
   align-items: center;
-  gap: .2rem;
-  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
 .form-pane .btn-signup {

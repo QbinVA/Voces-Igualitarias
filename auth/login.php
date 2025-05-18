@@ -169,8 +169,9 @@ $txt = $textos[$lang] ?? $textos['es'];
           <span class="toggle-password" onclick="togglePassword()">👁️</span>
         </div>
 
-        <label style="display: block; margin: 8px 0;">
-          <input type="checkbox" name="recordarme" <?= isset($_POST['recordarme']) ? 'checked' : '' ?>> <?= $txt['recordarme'] ?>
+        <label>
+          <input type="checkbox" name="recordarme" <?= isset($_POST['recordarme']) ? 'checked' : '' ?>>
+          <span><?= $txt['recordarme'] ?></span>
         </label>
 
         <a class="forgot" href="#"><?= $txt['olvide'] ?></a>
