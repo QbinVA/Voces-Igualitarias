@@ -20,10 +20,6 @@
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   --glass-blur: blur(12px);
-  
-  /* Gradientes */
-  --gradient-primary: linear-gradient(135deg, #00d4c4, #00788a);
-  --gradient-hover: linear-gradient(135deg, #01f9c6, #008080);
 }
 
 /* animación de fondo RGB mejorada */
@@ -44,7 +40,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
   line-height: 1.6;
-  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
 }
 
 main.noticia-page {
@@ -109,7 +104,6 @@ main.noticia-page::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -127,7 +121,7 @@ main.noticia-page::before {
 
 .encabezado h1 {
   font-size: 2.8rem;
-  line-height: 1.2;
+
   color: #fff;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -140,7 +134,6 @@ main.noticia-page::before {
   display: block;
   width: 80px;
   height: 4px;
-  background: var(--gradient-primary);
   margin: 25px auto 0;
   border-radius: 50px;
   box-shadow: 0 2px 10px rgba(0, 215, 196, 0.3);
@@ -172,7 +165,6 @@ main.noticia-page::before {
   left: 50%;
   width: 50%;
   height: 10px;
-  background: var(--gradient-primary);
   transform: translateX(-50%);
   border-radius: 0 0 50% 50%;
   opacity: 0.7;
@@ -185,7 +177,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -235,7 +226,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: 1;
@@ -289,7 +279,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--gradient-primary);
   opacity: 0.8;
 }
 
@@ -300,7 +289,6 @@ main.noticia-page::before {
   right: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.07), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -365,7 +353,6 @@ main.noticia-page::before {
   left: -100%;
   width: 300%;
   height: 300%;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -412,7 +399,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--gradient-primary);
   opacity: 0.8;
 }
 
@@ -423,7 +409,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.07), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -453,7 +438,6 @@ main.noticia-page::before {
   display: block;
   width: 50px;
   height: 3px;
-  background: var(--gradient-primary);
   margin: 12px auto 0;
   border-radius: 50px;
 }
@@ -504,7 +488,6 @@ main.noticia-page::before {
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--gradient-primary);
   opacity: 0.8;
 }
 
@@ -545,7 +528,6 @@ main.noticia-page::before {
   display: block;
   width: 60px;
   height: 3px;
-  background: var(--gradient-primary);
   margin: 15px auto 0;
   border-radius: 50px;
 }
@@ -573,256 +555,6 @@ main.noticia-page::before {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ————————————————————————————————————————— */
-/* Sección de comentarios con glassmorphism */
-/* ————————————————————————————————————————— */
-.comentarios-seccion {
-  max-width: 700px;
-  margin: 40px auto 70px;
-  padding: 35px 40px;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-radius: 24px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.comentarios-seccion::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: var(--gradient-primary);
-  opacity: 0.8;
-}
-
-.comentarios-seccion::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.07), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.comentarios-seccion:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.comentarios-seccion:hover::after {
-  opacity: 1;
-}
-
-.comentarios-titulo {
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-  color: #fff;
-  position: relative;
-  padding-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.comentarios-titulo::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 80px;
-  height: 3px;
-  background: var(--gradient-primary);
-  border-radius: 0 0 10px 10px;
-}
-
-.comentarios-vacio {
-  text-align: center;
-  padding: 30px 0;
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-}
-
-.comentarios-vacio a {
-  color: #4fc3f7;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
-  padding: 0 5px 2px;
-}
-
-.comentarios-vacio a:hover {
-  color: #81d4fa;
-  background: rgba(79, 195, 247, 0.1);
-  border-radius: 4px;
-}
-
-.comentar-form {
-  margin-top: 30px;
-  padding-top: 25px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.comentar-form textarea {
-  width: 100%;
-  padding: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  resize: vertical;
-  min-height: 120px;
-  margin-bottom: 20px;
-  font-family: inherit;
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  font-size: 1rem;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-}
-
-.comentar-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.comentar-form textarea:focus {
-  outline: none;
-  border-color: rgba(79, 195, 247, 0.5);
-  box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.comentar-form button {
-  background: var(--gradient-primary);
-  color: white;
-  border: none;
-  padding: 14px 30px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  font-size: 1rem;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 5px 15px rgba(0, 188, 212, 0.2);
-}
-
-.comentar-form button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.comentar-form button:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 188, 212, 0.3);
-  background: var(--gradient-hover);
-}
-
-.comentar-form button:active {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 188, 212, 0.2);
-}
-
-.comentar-form button:hover::before {
-  opacity: 1;
-}
-
-/* Estilo para comentarios individuales */
-.comentario {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 20px 25px;
-  margin-bottom: 25px;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.comentario::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: var(--gradient-primary);
-  opacity: 0.7;
-  border-radius: 0 2px 2px 0;
-}
-
-.comentario::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.comentario:hover {
-  transform: translateY(-5px) translateX(3px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-}
-
-.comentario:hover::after {
-  opacity: 1;
-}
-
-.comentario p:first-child {
-  margin-bottom: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-}
-
-.comentario p:first-child strong {
-  color: #fff;
-  font-weight: 600;
-  position: relative;
-  padding-bottom: 2px;
-}
-
-.comentario p:first-child strong::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: rgba(79, 195, 247, 0.3);
-}
-
-.comentario p:last-child {
-  margin-bottom: 0;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -859,13 +591,7 @@ main.noticia-page::before {
     margin: 30px 15px;
     padding: 20px;
   }
-  
-  .comentarios-seccion {
-    margin: 30px 15px;
-    padding: 25px 20px;
-  }
-  
-  
+
       .imagenes {
         margin: 40px 15px;
         padding: 20px 15px;
@@ -888,109 +614,4 @@ main.noticia-page::before {
       .noticia-figure {
         margin: 20px 10px;
       }
-    }
-
-    /* Estilos para la sección de comentarios */
-    .comentarios-seccion {
-      max-width: 700px;
-      margin: 40px auto 70px;
-      padding: 25px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
-    }
-    
-    .comentarios-titulo {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: #333;
-      position: relative;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .comentarios-titulo::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(to right, #00bcd4, #009688);
-    }
-    
-    .comentarios-vacio {
-      text-align: center;
-      padding: 30px 0;
-      color: #666;
-      font-style: italic;
-    }
-    
-    .comentar-form {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid #e0e0e0;
-    }
-    
-    .comentar-form textarea {
-      width: 100%;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      resize: vertical;
-      min-height: 100px;
-      margin-bottom: 15px;
-      font-family: inherit;
-      background-color: #f9f9f9;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .comentar-form textarea:focus {
-      border-color: #00bcd4;
-      box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
-      outline: none;
-    }
-    
-    .comentar-form button {
-      background: linear-gradient(to right, #00bcd4, #009688);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .comentar-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* Estilo para comentarios individuales */
-    .comentario {
-      background-color: #f5f9fa;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-      transition: transform 0.2s ease;
-      border-left: 3px solid #00bcd4;
-    }
-    
-    .comentario:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    }
-    
-    .comentario p:first-child {
-      margin-bottom: 8px;
-      color: #555;
-      font-size: 0.9rem;
-    }
-    
-    .comentario p:last-child {
-      margin-bottom: 0;
-      font-size: 1rem;
-      line-height: 1.5;
     }
