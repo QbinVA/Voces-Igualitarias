@@ -415,7 +415,7 @@ ob_start();
           $imagen = htmlspecialchars(str_replace('../uploads/', '', $pub['imagen_principal']));
           $imgSrc = "uploads/" . $imagen;
       ?>
-          <div class="slide <?= $i === 0 ? 'active' : '' ?>">
+          <a href="views/layouts/ver_publicacion.php?id=<?= $pub['id_noticia'] ?>&lang=<?= $lang ?>" class="slide <?= $i === 0 ? 'active' : '' ?>">
               <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($pub['titular']) ?>">
               <div class="slide-content">
                   <h3 class="slide-title">
@@ -430,7 +430,7 @@ ob_start();
                           : date("m/d/Y", strtotime($pub['fecha'])); ?>
                   </div>
               </div>
-          </div>
+          </a>
       <?php endforeach; ?>
   </section>
 
