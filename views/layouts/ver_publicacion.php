@@ -60,6 +60,318 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="../css/font/font.css">
   <!-- Estilos adicionales para comentarios y título -->
   <style>
+    /* ————————————————————————————————————————— */
+    /* Mejoras para las cápsulas de texto principales */
+    /* ————————————————————————————————————————— */
+
+    /* Estilo mejorado para la sección de encabezado */
+    .encabezado {
+      max-width: 800px;
+      margin: 60px auto 30px;
+      border-radius: 16px;
+      padding: 35px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .encabezado:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .encabezado h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      color: #1a1a1a;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    /* Estilo mejorado para la descripción corta */
+    .descripcion-centrada {
+      max-width: 700px;
+      margin: 20px auto 40px;
+      padding: 25px 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(5px);
+      text-align: center;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #444;
+      line-height: 1.7;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .descripcion-centrada::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 60px;
+      height: 3px;
+      transform: translateX(-50%) translateY(-1.5px);
+      border-radius: 0 0 10px 10px;
+    }
+
+    /* Mejora para el contenedor de imagen principal */
+    .noticia-figure {
+      margin: 40px auto;
+      text-align: center;
+      max-width: 1000px;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 8px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease;
+    }
+
+    .noticia-figure:hover {
+      transform: scale(1.01);
+    }
+
+    .noticia-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+
+    /* Estilo mejorado para el contenido principal */
+    .contenido {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 35px 40px;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: #333;
+      letter-spacing: 0.3px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+
+    .contenido::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .contenido p {
+      margin-bottom: 1.5em;
+    }
+
+    /* Presentación mejorada de la fecha */
+    .fecha-centrada {
+      max-width: 700px;
+      margin: 30px auto 50px;
+      padding: 15px 20px;
+      text-align: center;
+      font-style: italic;
+      color: #555;
+      font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sección de referencia modernizada */
+    .referencia {
+      max-width: 700px;
+      margin: 50px auto 70px;
+      text-align: center;
+      padding: 25px 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+
+    .referencia::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .referencia h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #333;
+      position: relative;
+      display: inline-block;
+    }
+
+    .referencia h3::after {
+      content: "";
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: #00bcd4;
+      margin: 10px auto 0;
+    }
+
+    .referencia a {
+      font-size: 1.05rem;
+      color: #0077cc;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      word-break: break-all;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background-color: rgba(0, 188, 212, 0.05);
+    }
+
+    .referencia a:hover {
+      color: #00bcd4;
+      background-color: rgba(0, 188, 212, 0.1);
+    }
+
+    /* Galería de imágenes con efecto de vidrio */
+    .imagenes {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+
+    .imagenes::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .imagenes h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      color: #333;
+      position: relative;
+    }
+
+    .imagenes h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      margin: 15px auto 0;
+    }
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .galeria img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .galeria img:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Diseño responsive actualizado */
+    @media (max-width: 768px) {
+      .encabezado {
+        margin: 40px 15px;
+        padding: 25px 20px;
+      }
+      
+      .encabezado h1 {
+        font-size: 2.2rem;
+      }
+      
+      .descripcion-centrada {
+        margin: 20px 15px;
+        padding: 20px;
+        font-size: 1.15rem;
+      }
+      
+      .noticia-figure {
+        margin: 30px 15px;
+      }
+      
+      .contenido {
+        margin: 30px 15px;
+        padding: 25px 20px;
+        font-size: 1.05rem;
+      }
+      
+      .fecha-centrada {
+        margin: 20px 15px;
+      }
+      
+      .referencia {
+        margin: 30px 15px;
+        padding: 20px 15px;
+      }
+      
+      .imagenes {
+        margin: 40px 15px;
+        padding: 20px 15px;
+      }
+      
+      .galeria {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .encabezado h1 {
+        font-size: 1.8rem;
+      }
+      
+      .galeria {
+        grid-template-columns: 1fr;
+      }
+      
+      .noticia-figure {
+        margin: 20px 10px;
+      }
+    }
+
     /* Estilos para la sección de comentarios */
     .comentarios-seccion {
       max-width: 700px;
@@ -163,38 +475,6 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
       margin-bottom: 0;
       font-size: 1rem;
       line-height: 1.5;
-    }
-    
-    /* Estilo para el título de la noticia similar al de index.php */
-    .encabezado {
-      max-width: 800px;
-      margin: 60px auto 20px;
-      text-align: center;
-      position: relative;
-      padding: 30px 20px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .encabezado h1 {
-      font-size: 2.8rem;
-      line-height: 1.2;
-      margin-bottom: 0;
-      color: #1a1a1a;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      position: relative;
-    }
-    
-    .encabezado h1::after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(to right, #00bcd4, #009688);
-      margin: 25px auto 0;
-      border-radius: 2px;
     }
   </style>
 </head>
