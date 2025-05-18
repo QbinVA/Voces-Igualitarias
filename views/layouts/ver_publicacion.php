@@ -1,5 +1,5 @@
 <?php
-// ver_publicacion.php
+// ver_publicacion.php - Versión actualizada
 
 session_start();
 require dirname(__DIR__, 2) . '/config/db.php';
@@ -58,24 +58,35 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="../css/noticia.css">
   <link rel="stylesheet" href="../css/footer.css">
   <link rel="stylesheet" href="../css/font/font.css">
+  <!-- Estilos adicionales para comentarios y título -->
   <style>
     /* Estilos para la sección de comentarios */
     .comentarios-seccion {
       max-width: 700px;
       margin: 40px auto 70px;
-      padding: 20px;
+      padding: 25px;
       background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
     }
     
     .comentarios-titulo {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
       color: #333;
       position: relative;
-      padding-bottom: 10px;
+      padding-bottom: 15px;
       border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .comentarios-titulo::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(to right, #00bcd4, #009688);
     }
     
     .comentarios-vacio {
@@ -93,21 +104,29 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     .comentar-form textarea {
       width: 100%;
-      padding: 12px;
+      padding: 15px;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 8px;
       resize: vertical;
       min-height: 100px;
       margin-bottom: 15px;
       font-family: inherit;
+      background-color: #f9f9f9;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .comentar-form textarea:focus {
+      border-color: #00bcd4;
+      box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+      outline: none;
     }
     
     .comentar-form button {
       background: linear-gradient(to right, #00bcd4, #009688);
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
+      padding: 12px 25px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.3s ease;
@@ -115,7 +134,67 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     .comentar-form button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Estilo para comentarios individuales */
+    .comentario {
+      background-color: #f5f9fa;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s ease;
+      border-left: 3px solid #00bcd4;
+    }
+    
+    .comentario:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .comentario p:first-child {
+      margin-bottom: 8px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    
+    .comentario p:last-child {
+      margin-bottom: 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    /* Estilo para el título de la noticia similar al de index.php */
+    .encabezado {
+      max-width: 800px;
+      margin: 60px auto 20px;
+      text-align: center;
+      position: relative;
+      padding: 30px 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .encabezado h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 0;
+      color: #1a1a1a;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    
+    .encabezado h1::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #00bcd4, #009688);
+      margin: 25px auto 0;
+      border-radius: 2px;
     }
   </style>
 </head>
@@ -154,7 +233,7 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </section>
   <?php endif; ?>
 
-  <!-- Sección de comentarios -->
+  <!-- Sección de comentarios mejorada -->
   <section class="comentarios-seccion">
     <h2 class="comentarios-titulo">Comentarios</h2>
 
