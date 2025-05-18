@@ -1,5 +1,5 @@
 <?php
-// ver_publicacion.php - Versión actualizada
+// ver_publicacion.php - Versión corregida
 
 session_start();
 require dirname(__DIR__, 2) . '/config/db.php';
@@ -22,17 +22,27 @@ if (!$noticia) {
 
 // Procesar el comentario si se envió
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comentario'])) {
-    if (!isset($_SESSION['usuario_id'])) {
+    if (!isset($_SESSION['admin_id']) && !isset($_SESSION['usuario_id'])) {
         die("Debes iniciar sesión para comentar.");
     }
 
     $comentario = trim($_POST['comentario']);
     if (!empty($comentario)) {
-        $stmt = $pdo->prepare("INSERT INTO comentarios (id_noticia, id_usuario, comentario, fecha_comentario) VALUES (:id_noticia, :id_usuario, :comentario, NOW())");
+        // Priorizar la validación del administrador
+        if (isset($_SESSION['admin_id'])) {
+            $tipo_usuario = 'admin';
+            $id_usuario = $_SESSION['admin_id'];
+        } else {
+            $tipo_usuario = 'usuario';
+            $id_usuario = $_SESSION['usuario_id'];
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO comentarios (id_noticia, id_usuario, comentario, fecha_comentario, tipo_usuario) VALUES (:id_noticia, :id_usuario, :comentario, NOW(), :tipo_usuario)");
         $stmt->execute([
             ':id_noticia' => $id_noticia,
-            ':id_usuario' => $_SESSION['usuario_id'],
-            ':comentario' => $comentario
+            ':id_usuario' => $id_usuario,
+            ':comentario' => $comentario,
+            ':tipo_usuario' => $tipo_usuario
         ]);
         header("Location: ver_publicacion.php?id=$id_noticia&lang=$lang");
         exit;
@@ -40,13 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comentario'])) {
 }
 
 // Recuperar comentarios existentes
-$stmt = $pdo->prepare("SELECT c.comentario, c.fecha_comentario, u.nombre 
-                       FROM comentarios c 
-                       JOIN usuarios u ON c.id_usuario = u.id_usuario 
-                       WHERE c.id_noticia = :id_noticia 
-                       ORDER BY c.fecha_comentario DESC");
+$stmt = $pdo->prepare("
+    SELECT c.comentario, c.fecha_comentario, 
+           CASE 
+               WHEN c.id_usuario = 1 THEN a.nombre
+               ELSE u.nombre
+           END AS nombre
+    FROM comentarios c
+    LEFT JOIN admin a ON c.id_usuario = a.id_admin
+    LEFT JOIN usuarios u ON c.id_usuario = u.id_usuario
+    WHERE c.id_noticia = :id_noticia
+    ORDER BY c.fecha_comentario DESC
+");
 $stmt->execute([':id_noticia' => $id_noticia]);
 $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars($lang) ?>">
@@ -207,12 +225,12 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php if (!empty($comentarios)): ?>
       <div class="comentarios-lista">
-        <?php foreach ($comentarios as $comentario): ?>
-          <div class="comentario">
-            <p><strong><?= htmlspecialchars($comentario['nombre']) ?></strong> - <?= date("d/m/Y H:i", strtotime($comentario['fecha_comentario'])) ?></p>
-            <p><?= nl2br(htmlspecialchars($comentario['comentario'])) ?></p>
-          </div>
-        <?php endforeach; ?>
+          <?php foreach ($comentarios as $comentario): ?>
+              <div class="comentario">
+                  <p><strong><?= htmlspecialchars($comentario['nombre']) ?></strong> - <?= date("d/m/Y H:i", strtotime($comentario['fecha_comentario'])) ?></p>
+                  <p><?= nl2br(htmlspecialchars($comentario['comentario'])) ?></p>
+              </div>
+          <?php endforeach; ?>
       </div>
     <?php else: ?>
       <div class="comentarios-vacio">
@@ -220,7 +238,7 @@ $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     <?php endif; ?>
 
-    <?php if (isset($_SESSION['usuario_id'])): ?>
+    <?php if (isset($_SESSION['usuario_id']) || isset($_SESSION['admin_id'])): ?>
       <form class="comentar-form" method="POST">
         <textarea name="comentario" placeholder="Escribe tu comentario aquí..." required></textarea>
         <button type="submit">Publicar comentario</button>
