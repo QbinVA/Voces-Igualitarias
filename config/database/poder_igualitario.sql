@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-05-2025 a las 15:22:53
+-- Tiempo de generación: 18-05-2025 a las 02:13:45
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -40,8 +40,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `nombre`, `correo`, `contrasena`) VALUES
-(1, 'kevin123', 'kvaldovinos2@ucol.mx', 'JuanoManzano'),
-(2, 'tester1', 'testeando@gmail.com', '123456789');
+(1, 'Voces_IgualitariasADM', 'vocesigualitarias@voces.mx', 'JuanoManzano');
 
 -- --------------------------------------------------------
 
@@ -86,6 +85,31 @@ CREATE TABLE `comentarios` (
 
 INSERT INTO `comentarios` (`id_comentario`, `id_noticia`, `id_usuario`, `comentario`, `fecha_comentario`) VALUES
 (1, 15, 3, 'me gusta esa cancion tambien esta bacana', '2025-05-17 15:06:01');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `email`, `token`, `created_at`) VALUES
+(1, 'infokevarias@gmail.com', 'd1e46d2df313060fe61c0829b70bd0e0f9bdd79c55ac04c7a482fbccb855115f', '2025-05-18 01:38:31'),
+(2, 'infokevarias@gmail.com', '9e784fcb2fd639e3721c8040324d7c2809a6ab35100103fc5f5532a09bccc2c3', '2025-05-18 01:50:59'),
+(3, 'infokevarias@gmail.com', 'a54e3b679bbf97fcddb21612d52a5a47be87f224a24bd5b27daad5dd13a8b2d3', '2025-05-18 01:56:55'),
+(4, 'infokevarias@gmail.com', 'ff7252bb4a3ff77600b393d5d9f3335ce5de00e97a54e257f04320f622265d12', '2025-05-18 01:56:56'),
+(5, 'infokevarias@gmail.com', 'fbfdc45ef687d6bfc1bc1f09a510ca51025e9a58e15d0ea5ca3be579d47bf3ba', '2025-05-18 01:56:57'),
+(6, 'infokevarias@gmail.com', '989bafadf63dafac23938fa6a1e790fbb15ad1f672e6f61d678f2bf17a421dc3', '2025-05-18 02:02:16');
 
 -- --------------------------------------------------------
 
@@ -165,6 +189,12 @@ ALTER TABLE `comentarios`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `publicaciones`
 --
 ALTER TABLE `publicaciones`
@@ -198,6 +228,12 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `comentarios`
   MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `publicaciones`
